@@ -6,11 +6,14 @@ verify_ssl = true
 [dev-packages]
 nose = "*"
 black = "*"
+pylint = "*"
+rope = "*"
 
 [packages]
 pynput = "*"
 python-twitter = "*"
 pyyaml = "*"
+python-crontab = "*"
 
 [requires]
 python_version = "3.7"

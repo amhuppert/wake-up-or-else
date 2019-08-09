@@ -1,11 +1,13 @@
 import unittest
 import os
 import wakeup.config as config
+from wakeup.errors import InvalidScheduleError
 from wakeup.schedule import Schedule, parse_schedule
 
 schedule_0630_daily = Schedule(6, 30)
 schedule_0630_mon = Schedule(6, 30, {"mon"})
 schedule_1330_daily = Schedule(13, 30)
+schedule_0630_mon_tues_fri = Schedule(6, 30, {"mon", "tue", "fri"})
 
 
 class WakeupTests(unittest.TestCase):
@@ -107,3 +109,28 @@ class WakeupTests(unittest.TestCase):
         s = parse_schedule("6:30am mon")
         self.assertEqual(schedule_0630_mon, s)
 
+    def test_parse_schedule_multiple_weekdays(self):
+        s = parse_schedule("6:30am mon,tue,fri")
+        self.assertEqual(schedule_0630_mon_tues_fri, s)
+
+    def test_parse_schedule_partial_time_raises_error(self):
+        with self.assertRaises(InvalidScheduleError):
+            parse_schedule("6")
+
+    def test_parse_schedule_non_numeric_time_raises_error(self):
+        with self.assertRaises(InvalidScheduleError):
+            parse_schedule("6:ab")
+        with self.assertRaises(InvalidScheduleError):
+            parse_schedule("a:30")
+
+    def test_parse_schedule_invalid_day_raises_error(self):
+        with self.assertRaises(InvalidScheduleError):
+            parse_schedule("6:30 mon,feus,wed")
+
+    def test_parse_schedule_hour_out_of_range_raises_error(self):
+        with self.assertRaises(InvalidScheduleError):
+            parse_schedule("24:30")
+
+    def test_parse_schedule_hour_out_of_range_raises_error(self):
+        with self.assertRaises(InvalidScheduleError):
+            parse_schedule("6:70")
