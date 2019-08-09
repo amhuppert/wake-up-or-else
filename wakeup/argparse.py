@@ -14,7 +14,7 @@ is detected within a configurable window from the time your alarm goes off."""
 parser = argparse.ArgumentParser(description=description)
 subparsers = parser.add_subparsers(dest="command", required=True)
 
-schedule_help = "Set up %(prog)s to run when your alram goes off"
+schedule_help = "Set up %(prog)s to run when your alarm goes off"
 schedule_command = subparsers.add_parser("schedule", help=schedule_help)
 schedule_command.add_argument(
     "time", help="The time the script should run. (Ex: '6:30am', '1:30pm', '13:30')"
@@ -29,10 +29,10 @@ separated by commas (no spaces). Defaults to every day of the week""",
 )
 schedule_command.set_defaults(run_command=commands.schedule)
 
-status_command = subparsers.add_parser("status", help="Show any scheduled periods")
+status_command = subparsers.add_parser("status", help="Show any scheduled alarms")
 status_command.set_defaults(run_command=commands.status)
 
-clear_command = subparsers.add_parser("clear", help="Remove all scheduled periods")
+clear_command = subparsers.add_parser("clear", help="Remove all scheduled alarms")
 clear_command.set_defaults(run_command=commands.clear)
 
 init_help = """\
