@@ -8,6 +8,7 @@ import yaml
 import wakeup.util as util
 from wakeup.twitter import send_tweet_after_delay
 from wakeup.user_activity import execute_on_user_activity
+from wakeup.constants import LOG_FILE_NAME, CONFIG_FILE_NAME
 
 
 def main():
@@ -19,7 +20,7 @@ def main():
 
 def configure_logging(level):
     user_home = util.get_user_home()
-    log_file = os.path.join(user_home, "wakeup.log")
+    log_file = os.path.join(user_home, LOG_FILE_NAME)
     logging.basicConfig(
         format="%(asctime)s [%(levelname)s]: %(message)s",
         level=level,
@@ -28,7 +29,7 @@ def configure_logging(level):
 
 
 def load_config_file():
-    """Attempts to load the wakeup.yaml file from the current user's
+    """Attempts to load the config file from the current user's
     home directory.
 
     Raises an exception if the file does not exist."""
@@ -42,7 +43,7 @@ def load_config_file():
 
 def try_load_config():
     user_home = util.get_user_home()
-    config_path = os.path.join(user_home, "wakeup.yaml")
+    config_path = os.path.join(user_home, CONFIG_FILE_NAME)
     logging.info(f"Attempting to load config file from {config_path}")
     with open(config_path, "r") as config_file:
         config = yaml.load(config_file)
